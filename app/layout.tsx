@@ -2,6 +2,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { init } from "@telegram-apps/sdk-react";
+import { useEffect } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,6 +29,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
       <html lang="en">
