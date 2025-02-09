@@ -35,18 +35,17 @@ export default function RootLayout({
 
       if (swipeBehavior.mount.isAvailable()) {
         swipeBehavior.mount();
-        swipeBehavior.isMounted(); // true
       }
 
       if (swipeBehavior.disableVertical.isAvailable()) {
         swipeBehavior.disableVertical();
-        swipeBehavior.isVerticalEnabled(); // false
       }
 
       // viewport
       if (viewport.mount.isAvailable() && !viewport.isMounting()) {
         await viewport.mount();
         viewport.requestFullscreen();
+        viewport.expand();
       }
     };
     initData();
