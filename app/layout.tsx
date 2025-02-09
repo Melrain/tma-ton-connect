@@ -2,7 +2,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
-import { init, viewport } from "@telegram-apps/sdk-react";
+import { init, viewport, swipeBehavior } from "@telegram-apps/sdk-react";
 import { useEffect } from "react";
 
 const geistSans = localFont({
@@ -32,14 +32,21 @@ export default function RootLayout({
   useEffect(() => {
     const initData = async () => {
       init();
-      if (viewport.mount.isAvailable()) {
-        if (viewport.isMounting()) {
-          return;
-        } else {
-          await viewport.mount();
-          viewport.requestFullscreen();
-          return;
-        }
+
+      if (swipeBehavior.mount.isAvailable()) {
+        swipeBehavior.mount();
+        swipeBehavior.isMounted(); // true
+      }
+
+      if (swipeBehavior.disableVertical.isAvailable()) {
+        swipeBehavior.disableVertical();
+        swipeBehavior.isVerticalEnabled(); // false
+      }
+
+      // viewport
+      if (viewport.mount.isAvailable() && !viewport.isMounting()) {
+        await viewport.mount();
+        viewport.requestFullscreen();
       }
     };
     initData();
