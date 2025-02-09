@@ -6,17 +6,15 @@ import {
   useTonAddress,
   useTonConnectUI,
 } from "@tonconnect/ui-react";
-import { Cell, Address, beginCell, storeMessage, TonClient } from "@ton/ton";
-
+import TonWeb from "tonweb";
 import React from "react";
-import { retry } from "@/utils";
 
 const transaction: SendTransactionRequest = {
   validUntil: Date.now() + 1 * 60 * 1000, // 5 minutes
   messages: [
     {
       address: "0QD-SuoCHsCL2pIZfE8IAKsjc0aDpDUQAoo-ALHl2mje04A-", // message destination in user-friendly format
-      amount: "20000000", // Toncoin in nanotons
+      amount: "40000000", // Toncoin in nanotons
     },
   ],
   network: CHAIN.TESTNET,
@@ -24,22 +22,22 @@ const transaction: SendTransactionRequest = {
 
 const UserInfo = () => {
   const [status, setStatus] = React.useState("Idle");
+  const [hash, setHash] = React.useState("");
   const userFriendlyAddress = useTonAddress();
-  const [tonConnectUI, setOptions] = useTonConnectUI();
+  const [tonConnectUI] = useTonConnectUI();
 
   const onSendTon = async () => {
     try {
       // Set loading state
-      tonConnectUI.setConnectRequestParameters({ state: "loading" });
+      setStatus("Sending...");
       const result = await tonConnectUI.sendTransaction(transaction);
-      const exBoc = result.boc;
-      const client = new TonClient({
-        endpoint: "https://toncenter.com/api/v2/jsonRPC",
-        apiKey:
-          "fb067e269eb882e96e68e37d26c7c520d2bb362334e290478c0cc91b76f120e1",
-      });
+      const bocCellBytes = await TonWeb.boc.Cell.oneFromBoc(
+        TonWeb.utils.base64ToBytes(result.boc)
+      ).hash();
+      const hashBase64 = TonWeb.utils.bytesToBase64(bocCellBytes);
+      setHash(hashBase64);
 
-      const myAddress = Address.parse(userFriendlyAddress);
+      // send hash to the server, wait server to confirm the transaction
     } catch (error) {
       console.error(error);
     }
@@ -50,6 +48,7 @@ const UserInfo = () => {
         <span className="break-words text-xs">{userFriendlyAddress}</span>
         <button onClick={onSendTon}>Send Ton</button>
         <span>{status}</span>
+        <span>{hash}</span>
       </div>
     )
   );

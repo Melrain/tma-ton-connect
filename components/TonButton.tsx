@@ -1,7 +1,6 @@
 "use client";
-
-import React from "react";
 import { TonConnectButton } from "@tonconnect/ui-react";
+import React from "react";
 
 const TonButton = () => {
   return (

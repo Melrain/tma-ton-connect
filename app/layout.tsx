@@ -2,7 +2,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
-import { init } from "@telegram-apps/sdk-react";
+import { init, viewport } from "@telegram-apps/sdk-react";
 import { useEffect } from "react";
 
 const geistSans = localFont({
@@ -30,7 +30,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   useEffect(() => {
-    init();
+    const initSDK = async () => {
+      init();
+      await viewport.mount();
+      viewport.requestFullscreen();
+    };
+    initSDK();
   }, []);
 
   return (
