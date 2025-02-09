@@ -30,12 +30,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   useEffect(() => {
-    const initSDK = async () => {
+    const initData = async () => {
       init();
-      await viewport.mount();
-      viewport.requestFullscreen();
+      if (viewport.mount.isAvailable()) {
+        if (viewport.isMounting()) {
+          return;
+        } else {
+          await viewport.mount();
+          viewport.requestFullscreen();
+          return;
+        }
+      }
     };
-    initSDK();
+    initData();
   }, []);
 
   return (

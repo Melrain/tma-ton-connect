@@ -4,10 +4,12 @@
 import TonButton from "@/components/TonButton";
 import UserInfo from "@/components/UserInfo";
 import { useIsConnectionRestored } from "@tonconnect/ui-react";
+
 import React from "react";
 
 const page = () => {
   const connectionRestored = useIsConnectionRestored();
+
   if (!connectionRestored) {
     return <div>Please wait...</div>;
   }
