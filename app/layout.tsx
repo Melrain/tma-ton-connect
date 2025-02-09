@@ -54,9 +54,11 @@ export default function RootLayout({
 
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <html lang="en">
+      <html
+        lang="en"
+        className="h-full">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-green-600`}>
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-green-600 h-full min-h-screen`}>
           {children}
         </body>
       </html>
