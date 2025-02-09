@@ -5,7 +5,7 @@ const layout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <main className="flex h-screen">{children}</main>;
+  return <main className="">{children}</main>;
 };
 
 export default layout;
