@@ -15,7 +15,7 @@ const page = () => {
   }
 
   return (
-    <div className="flex flex-col w-full h-screen overflow-hidden">
+    <div className="flex flex-col overflow-hidden">
       <div className="flex w-full justify-end p-2">
         <TonButton />
       </div>
