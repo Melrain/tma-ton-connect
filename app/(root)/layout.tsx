@@ -5,7 +5,7 @@ const layout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <main className="mt-5">{children}</main>;
+  return <main className="mt-24">{children}</main>;
 };
 
 export default layout;
