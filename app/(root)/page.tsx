@@ -3,7 +3,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="flex flex-col overflow-hidden min-h-screen">
+    <div className="flex flex-col">
       <AllPokerRooms />
     </div>
   );
