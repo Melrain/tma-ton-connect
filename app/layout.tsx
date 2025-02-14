@@ -7,6 +7,8 @@ import {
   viewport,
   swipeBehavior,
   setMiniAppBackgroundColor,
+  setMiniAppHeaderColor,
+  miniApp,
 } from "@telegram-apps/sdk-react";
 import { useEffect } from "react";
 
@@ -38,7 +40,14 @@ export default function RootLayout({
     const initData = async () => {
       init();
 
-      setMiniAppBackgroundColor("#000000");
+      if (miniApp.mount.isAvailable() && !miniApp.isMounting()) {
+        await miniApp.mount();
+      }
+
+      if (miniApp.isMounted()) {
+        setMiniAppHeaderColor("#BBFFFF");
+        setMiniAppBackgroundColor("#00FFFF");
+      }
 
       if (swipeBehavior.mount.isAvailable()) {
         swipeBehavior.mount();
@@ -52,7 +61,7 @@ export default function RootLayout({
       if (viewport.mount.isAvailable() && !viewport.isMounting()) {
         await viewport.mount();
         // viewport.requestFullscreen();
-        viewport.expand();
+        // viewport.expand();
       }
     };
     initData();
