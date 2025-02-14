@@ -2,7 +2,12 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
-import { init, viewport, swipeBehavior } from "@telegram-apps/sdk-react";
+import {
+  init,
+  viewport,
+  swipeBehavior,
+  setMiniAppBackgroundColor,
+} from "@telegram-apps/sdk-react";
 import { useEffect } from "react";
 
 const geistSans = localFont({
@@ -32,6 +37,8 @@ export default function RootLayout({
   useEffect(() => {
     const initData = async () => {
       init();
+
+      setMiniAppBackgroundColor("#000000");
 
       if (swipeBehavior.mount.isAvailable()) {
         swipeBehavior.mount();
