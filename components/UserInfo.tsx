@@ -36,7 +36,6 @@ const UserInfo = () => {
       ).hash();
       const hashBase64 = TonWeb.utils.bytesToBase64(bocCellBytes);
       setHash(hashBase64);
-
       // send hash to the server, wait server to confirm the transaction
     } catch (error) {
       console.error(error);

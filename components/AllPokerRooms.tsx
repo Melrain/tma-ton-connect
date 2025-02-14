@@ -1,50 +1,28 @@
 "use client";
 
-import { io } from "socket.io-client";
-import React from "react";
-import {
-  TonConnectButton,
-  useIsConnectionRestored,
-  useTonWallet,
-} from "@tonconnect/ui-react";
+import React, { useEffect } from "react";
+import { useTonWallet } from "@tonconnect/ui-react";
+import { backButton } from "@telegram-apps/sdk-react";
+import { useRouter } from "next/navigation";
 
 const AllPokerRooms = () => {
-  const socketURL = process.env.NEXT_PUBLIC_SOCKET_URL;
+  const router = useRouter();
 
-  const socket = io(socketURL, {
-    extraHeaders: {
-      username: "admin",
-      tonwallet: "faketonwallet01",
-      roomid: "1",
-    },
-  });
+  useEffect(() => {
+    const initBackButton = async () => {
+      if (!backButton.isMounted()) {
+        backButton.mount();
+        backButton.show();
+      }
+    };
+    initBackButton();
+  }, []);
 
-  socket.on("connect", () => {
-    console.log("socket connected!");
-    return;
-  });
-
-  socket.on("disconnect", () => {
-    console.log("socket disconnected!");
-    return;
-  });
-
-  const connectionRestored = useIsConnectionRestored();
-  const tonWallet = useTonWallet();
-
-  if (!connectionRestored) {
-    return <div>Please wait...</div>;
+  if (!useTonWallet()) {
+    router.push("/");
   }
 
-  if (!tonWallet) {
-    return (
-      <div>
-        <TonConnectButton />
-      </div>
-    );
-  }
-
-  return <div className="flex justify-center items-center">All Rooms</div>;
+  return <div>AllPokerRooms</div>;
 };
 
 export default AllPokerRooms;
