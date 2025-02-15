@@ -73,7 +73,7 @@ export default function RootLayout({
         lang="en"
         className="h-full">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}>
           {children}
         </body>
       </html>
