@@ -45,8 +45,8 @@ export default function RootLayout({
       }
 
       if (miniApp.isMounted()) {
-        setMiniAppHeaderColor("#BBFFFF");
-        setMiniAppBackgroundColor("#00FFFF");
+        setMiniAppHeaderColor("#000000");
+        setMiniAppBackgroundColor("#000000");
       }
 
       if (swipeBehavior.mount.isAvailable()) {
