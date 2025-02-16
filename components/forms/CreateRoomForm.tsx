@@ -2,7 +2,7 @@
 
 import { useTonWallet } from "@tonconnect/ui-react";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Button } from "../ui/button";
+import { socket } from "@/lib/socket";
 
 const formSchema = z.object({
   blindSize: z.coerce.number(),
@@ -30,8 +31,10 @@ const formSchema = z.object({
 });
 
 const CreateRoomForm = () => {
+  const [isConnected, setIsConnected] = useState(false);
+  const [transport, setTransport] = useState("N/A");
   const router = useRouter();
-  const isConnected = useTonWallet();
+  const wallet = useTonWallet();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,10 +49,38 @@ const CreateRoomForm = () => {
   };
 
   useEffect(() => {
-    if (!isConnected) {
+    if (!wallet) {
       router.push("/");
     }
-  }, [isConnected, router]);
+  }, [wallet, router]);
+
+  useEffect(() => {
+    if (socket.connected) {
+      onConnect();
+    }
+
+    function onConnect() {
+      setIsConnected(true);
+      setTransport(socket.io.engine.transport.name);
+
+      socket.io.engine.on("upgrade", (transport) => {
+        setTransport(transport.name);
+      });
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+      setTransport("N/A");
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, []);
 
   return (
     <Form {...form}>

@@ -7,3 +7,11 @@ declare global {
     };
   }
 }
+
+export enum SocketCode {
+  CREATE_ROOM = "createRoom",
+}
+
+export enum EventCode {
+  START_GAME = "startGame",
+}
