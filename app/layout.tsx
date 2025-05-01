@@ -60,8 +60,8 @@ export default function RootLayout({
       // viewport
       if (viewport.mount.isAvailable() && !viewport.isMounting()) {
         await viewport.mount();
-        // viewport.requestFullscreen();
-        // viewport.expand();
+        viewport.requestFullscreen();
+        viewport.expand();
       }
     };
     initData();
