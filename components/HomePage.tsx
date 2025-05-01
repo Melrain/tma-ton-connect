@@ -5,6 +5,7 @@ import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
 import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
+import axios from "axios";
 
 const HomePage = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -12,6 +13,11 @@ const HomePage = () => {
 
   // use this to prevent hydration mismatch
   // because when wallet state changes, without useEffect, the component will not re-render
+
+  const apitest = async () => {
+    await axios.get("http://localhost:8080/api/test");
+  };
+
   useEffect(() => {
     const checkConnection = async () => {
       if (wallet) {
@@ -25,6 +31,12 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col w-full items-center justify-center">
+      <button
+        onClick={() => {
+          apitest();
+        }}>
+        api test
+      </button>
       <TonConnectButton className="absolute top-0 right-0 py-10 px-2" />
       <>
         {isConnected && (

@@ -36,7 +36,7 @@ const formSchema = z.object({
 const CreateRoomForm = () => {
   const router = useRouter();
   const wallet = useTonWallet();
-  const { initDataRaw, initData } = retrieveLaunchParams();
+  const { initDataRaw } = retrieveLaunchParams();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
